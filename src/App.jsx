@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import './App.css'
+import './styles/App.css'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,7 +9,7 @@ function App() {
     <>
         <div className="navbar">
             <a href='/'>⌂</a>
-            <a href= '/questions'>Preguntas Frecuentes</a>
+            <a href= '/compras'>compras</a>
             <a href= '/login'>Iniciar Sesión</a>
             <a href= '/signup'>Registrarse</a>
         </div>
