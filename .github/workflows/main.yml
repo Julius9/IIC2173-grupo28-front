@@ -1,0 +1,39 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [ main, develop, CiTest]
+    paths: 
+      - 'src/**'
+
+jobs:
+  lint-and-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install Dependencies
+      run: yarn install
+      
+    - name: Run Linter
+      run: yarn lint
+
+    - name: Build Project
+      run: yarn build
+
+    - name: Start Development Server
+      run: yarn dev 
+
+    - name: Run Lighthouse Audit
+      uses: treosh/lighthouse-ci-action@v8
+      with:
+        urls: |
+          http://localhost:5173/
+        temporaryPublicStorage: true
