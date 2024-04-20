@@ -2,9 +2,10 @@ name: Frontend CI
 
 on:
   pull_request:
-    branches: [ main, develop, CiTest ]
-    paths: 
-      - 'src/**'
+    branches:
+      - main
+      - develop
+      - CiTest
 
 jobs:
   lint-and-audit:
@@ -33,7 +34,7 @@ jobs:
             "ci": {
               "collect": {
                 "url": [
-                  "http://localhost/"
+                  "http://localhost:5173/"
                 ],
                 "startServerCommand": "yarn start"
               },
