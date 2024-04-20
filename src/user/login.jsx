@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../auth/AuthContext';
+import React, { useState, useContext, createContext } from 'react';
+
 function Login(){
-    const { token, setToken } = useContext(AuthContext);
+    const { token, setToken } = createContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -10,7 +10,7 @@ function Login(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        //
         axios.post(`${import.meta.env.API_URL}/login`, {
             email: email,
             password: password
@@ -30,30 +30,35 @@ function Login(){
 
     };
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Email:
-                <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                Password:
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                />
-            </label>
-            <input type="submit" value="Enviar" />
-        </form>
+        <div className="Login">
+            {msg.length > 0 && <div className="successMsg"> {msg} </div>}
+
+            {error && <div className="error">Hubo un error con el Login, por favor trata nuevamente.</div>}
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Email:
+                    <input
+                        type="email"
+                        name="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Password:
+                    <input
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />
+                </label>
+                <input type="submit" value="Enviar" />
+            </form>
+        </div>
     )
 }
 
-export default Login()
+export default Login;

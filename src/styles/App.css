@@ -6,8 +6,8 @@
 }
 
 .navbar {
-  width: 100vw;
-  position: fixed;
+  width: 100%;
+  align-content: center;
   top: 0;
   left: 0;
 }
