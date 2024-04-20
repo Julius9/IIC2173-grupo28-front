@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function Signup() {
     const [username, setUsername] = useState("");
-    const [ememail, setEmail] = useState("");
+    const [mail, setmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [msg, setMsg] = useState("");
@@ -14,9 +14,9 @@ function Signup() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        axios.post(`${import.meta.env.API_URL}/register`, {
+        axios.post(`${import.meta.env.API_URL}/api/auth/register`, {
             username: username,
-            ememail: ememail,
+            ememail: mail,
             password: password
         }).then((response) => {
             console.log('Registro exitoso! Ahora puedes volver y loguearte');
@@ -58,8 +58,8 @@ function Signup() {
                         <input
                             type="email"
                             name="ememail"
-                            value={ememail}
-                            onChange={e => setEmail(e.target.value)}
+                            value={mail}
+                            onChange={e => setmail(e.target.value)}
                             required
                         />
                     </label>

@@ -3,7 +3,7 @@ import React, { useState, useContext, createContext } from 'react';
 
 function Login(){
     const { token, setToken } = createContext();
-    const [email, setEmail] = useState("");
+    const [mail, setmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [msg, setMsg] = useState("");
@@ -11,15 +11,15 @@ function Login(){
     const handleSubmit = async (event) => {
         event.preventDefault();
         //
-        axios.post(`${import.meta.env.API_URL}/login`, {
-            email: email,
+        axios.post(`${import.meta.env.API_URL}/api/auth/login`, {
+            email: mail,
             password: password
         }).then((response) => {
             console.log('Login successful');
             setError(false);
             setMsg("Login exitoso!");
             // Recibimos el token y lo procesamos
-            const access_token = response.data.access_token;
+            const access_token = response.data.token;
             //localStorage.setItem('token', access_token);
             setToken(access_token);
             console.log("Se seteo el token: ", token);
@@ -40,8 +40,8 @@ function Login(){
                     <input
                         type="email"
                         name="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        value={mail}
+                        onChange={e => setmail(e.target.value)}
                         required
                     />
                 </label>
