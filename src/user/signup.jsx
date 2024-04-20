@@ -1,4 +1,4 @@
-function Login(){
+function SignUp(){
     return (
         <form onSubmit={handleSubmit}>
             <label>
@@ -26,4 +26,4 @@ function Login(){
     )
 }
 
-export default Login()
+export default SignUp()
