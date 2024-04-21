@@ -12,7 +12,7 @@ function Login(){
     const handleSubmit = async (event) => {
         event.preventDefault();
         //
-        axios.post(`${import.meta.env.API_URL}/api/auth/login`, {
+        axios.post(`http://localhost:3003/api/auth/login`, {
             email: mail,
             password: password
         }).then((response) => {
