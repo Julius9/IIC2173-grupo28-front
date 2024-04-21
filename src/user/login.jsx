@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState, useContext, createContext } from 'react';
+import {AuthContext} from "../auth/AuthContext.jsx";
 
 function Login(){
-    const { token, setToken } = createContext();
+    const { token, setToken } = AuthContext;
     const [mail, setmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -11,7 +12,7 @@ function Login(){
     const handleSubmit = async (event) => {
         event.preventDefault();
         //
-        axios.post(`${import.meta.env.API_URL}/api/auth/login`, {
+        axios.post(`http://localhost:3003/api/auth/login`, {
             email: mail,
             password: password
         }).then((response) => {
