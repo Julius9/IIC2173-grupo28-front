@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState, useContext, createContext } from 'react';
+import {AuthContext} from "../auth/AuthContext.jsx";
 
 function Login(){
-    const { token, setToken } = createContext();
+    const { token, setToken } = AuthContext;
     const [mail, setmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
