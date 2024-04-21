@@ -25,8 +25,8 @@ function Flights(){
 
                 data.map((f)=>{
                     destinos.push(f.arrival_airport)
-                    if (!fechas.includes(f.departure_time.slice(0,-6))){
-                        fechas.push(f.departure_time.slice(0,-6));
+                    if (!fechas.includes(f.departure_time.slice(0,10))){
+                        fechas.push(f.departure_time.slice(0,10));
                     }
                 });
 
