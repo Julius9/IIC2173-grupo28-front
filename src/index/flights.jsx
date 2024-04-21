@@ -1,5 +1,10 @@
- function Flights(){
+import InfoBlock from "./infoBlock.jsx";
+import React, { createContext, useState, useContext, useEffect } from 'react';
+
+function Flights(){
     const ChargePage = ()=>{
+        const [vuelo, setVuelo] = useState("")
+        const [flights, setFlights] = useState("")
         useEffect(() => {
             const config = {
                 'method': 'get',
@@ -11,14 +16,13 @@
             console.log(`Haciendo el request a ${import.meta.env.API_URL}/flights`);
 
             axios(config).then((response) => {
-                const data = response.data;
+                const data = response.data.flights;
                 const vuelos = {};
-                data.Players.map((player) => {
-                    characters[player.id] = player;
-                    if (player.color ==  response.data.color){
-                        setJugador({player})
-                    }
+                data.InfoBlock .map((vuelo) => {
+                    vuelos[vuelo.id] = vuelo;
+                    setVuelo({vuelo});
                 });
+                setFlights(vuelos)
 
             })
                 .catch((error) => {
@@ -28,7 +32,17 @@
     }
 
     return(
-        <h1>Lista de Vuelos</h1>
+
+        <section>
+            <h1>Lista de Vuelos</h1>
+            {Object.values(flights).map(p =>
+                (
+                    <InfoBlock
+
+                    />
+                )
+            )}
+        </section>
 
     )
  }
