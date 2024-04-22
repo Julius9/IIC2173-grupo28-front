@@ -9,6 +9,7 @@ function FlightInfo() {
     const [flightInfo, setFlightInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [numTickets, setNumTickets] = useState(1);
+    const [exito, setExito] = useState("comprar")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,11 +53,9 @@ function FlightInfo() {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
-        }).then((response) => {
-            console.log('Registro exitoso! Ahora puedes volver y loguearte');
-            setError(false);
-            setMsg('Registro exitoso! Ahora puedes volver y loguearte');
-        }).catch((error) => {
+        }).then(
+            setExito("comprado 👌")
+        ).catch((error) => {
             console.error('Ocurrió un error:', error);
             //console.log(error.response.data.errors[0].message)
             //console.log((error.response.data['errors']))
@@ -92,7 +91,10 @@ function FlightInfo() {
                     <span>{numTickets}</span>
                     <button onClick={handleIncrement}>+</button>
                 </div>
-                <a  onClick={boughtRequest}>Comprar {numTickets} boletos</a>
+
+                <a  onClick={boughtRequest} >{exito} {numTickets} boletos</a>
+
+
             </div>
         </>
     );
