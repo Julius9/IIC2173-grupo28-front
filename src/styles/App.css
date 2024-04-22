@@ -6,8 +6,8 @@
 }
 
 .navbar {
-  width: 100vw;
-  position: fixed;
+  width: 100%;
+  align-content: center;
   top: 0;
   left: 0;
 }
@@ -28,4 +28,19 @@
 .imgCenter {
   width: 25%;
   aspect-ratio: 1.5/1;
+}
+
+.block{
+  background-color: #737373;
+  margin: 10px;
+}
+
+.block a {
+  display: inline-block;
+  background-color: #4d4d4d;
+  color: #00fcef;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  margin: 10px;
 }

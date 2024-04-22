@@ -1,23 +1,23 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 import './styles/App.css'
+import {AuthContext} from "./auth/AuthContext.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    let iniciadoSesion = false;
+    if (useContext(AuthContext) ){
+        iniciadoSesion = true;
+    }
 
   return (
     <>
         <div className="navbar">
-            <a href='/'>⌂</a>
-            <a href= '/compras'>compras</a>
-            <a href= '/login'>Iniciar Sesión</a>
+            <a href='/'>⌂ Home </a>
+            <a href='/flights'> Vuelos ✈ </a>
+            {iniciadoSesion && <a href= '/compras'>Mis compras</a>}
+            {!iniciadoSesion &&<a href= '/login'>Iniciar Sesión</a>}
             <a href= '/signup'>Registrarse</a>
         </div>
-
-
-        <img className="imgCenter" src="https://res.cloudinary.com/darhaqq0v/image/upload/v1713117225/pngwing.com_1_i3u0yc.png" alt="avion" />
-        <h1>Aerolinea 28</h1>
-
 
 
     </>
