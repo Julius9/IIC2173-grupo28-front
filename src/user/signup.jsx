@@ -14,9 +14,9 @@ function Signup() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        axios.post(`http://localhost:3003/api/auth/register`, {
+        axios.post(`https://api.legitapp.org/api/auth/register`, {
             username: username,
-            ememail: mail,
+            mail: mail,
             password: password
         }).then((response) => {
             console.log('Registro exitoso! Ahora puedes volver y loguearte');
