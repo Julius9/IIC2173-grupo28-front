@@ -44,3 +44,12 @@
   text-decoration: none;
   margin: 10px;
 }
+
+.page {
+  background-color: #44434b;
+  text-align: left;
+}
+
+.page img {
+  text-align: center;
+}
