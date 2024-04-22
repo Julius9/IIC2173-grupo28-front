@@ -30,6 +30,8 @@ function Bought(){
                 });
         }, []);}
 
+    chargePage()
+
    return(
        <>
            {compra.map(c => (
