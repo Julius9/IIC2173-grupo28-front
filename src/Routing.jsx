@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import LandingPage from "./LandingPage.jsx";
 import FlightInfo from "./flight/Page.jsx";
 import Flights from "./index/flights.jsx";
+import Bought from "./compras/Bought.jsx";
 
 
 function Routing(){
@@ -16,6 +17,7 @@ function Routing(){
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/signup'} element={<Signup/>}/>
                     <Route path={'/flights'} element={<Flights/>}/>
+                    <Route path={'/compras'} element={<Bought/>}/>
                     <Route path="/flight/:id" element={<FlightInfo />} />
 
 
