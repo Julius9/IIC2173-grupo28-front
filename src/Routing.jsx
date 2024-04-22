@@ -16,7 +16,7 @@ function Routing(){
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/signup'} element={<Signup/>}/>
                     <Route path={'/flights'} element={<Flights/>}/>
-                    <Route path={'/flight'} element={<FlightInfo/>}/>
+                    <Route path="/flight/:id" element={<FlightInfo />} />
 
 
 

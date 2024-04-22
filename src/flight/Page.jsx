@@ -1,39 +1,20 @@
-import { useState } from 'react'
 
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
+function FlightInfo() {
+    // Obtener el parámetro "id" de la ruta
+    const { id } = useParams();
 
-// reviso vuelo en especifico
-
-function FlightInfo(){
+    // Ahora puedes utilizar el ID en tu lógica para obtener la información del vuelo correspondiente
 
     return (
         <>
-        <h1>Informarcion del Vuelo</h1>
-            <img src={"https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.m.wikipedia.org%2Fwiki%2FArchivo%3ALAN_Airlines_logo.svg&psig=AOvVaw1wKkRYCT95AN_18yW-78eY&ust=1713758418721000&source=images &cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDU-9210oUDFQAAAAAdAAAAABAE"}/>
-            <p>Aeropuerto Partida</p>
-            {
-                // aeropuerto
-            }
-            <p>Aeropuerto Llegada</p>
-            {
-                // aeropuerto
-            }
-
-            <p>Estimaciones de vuelo</p>
-            {
-                // Info partida, llegada y duracion
-            }
-            <p>Costo</p>
-            {
-                // info costo
-            }
-            <p>================================================</p>
-            {
-                // boton de compra
-            }
-
+            <h1>Información del Vuelo</h1>
+            <p>ID del vuelo: {id}</p>
+            {/* Aquí puedes agregar el resto de tu JSX */}
         </>
-    )
+    );
 }
 
 export default FlightInfo;
