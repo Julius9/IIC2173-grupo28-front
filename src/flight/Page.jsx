@@ -2,21 +2,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import "../styles/App.css"
 
 function FlightInfo() {
+    const navigate = useNavigate()
     const { id } = useParams();
     const [flightInfo, setFlightInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [numTickets, setNumTickets] = useState(1);
     const [exito, setExito] = useState("comprar")
+    let price = 0;
+    let destino = "";
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
+                const response = await axios.get(`localhost:3000/flights/${id}`);
                 setFlightInfo(response.data);
+                price = response.data.price;
+                destino = response.data.arrival_airport_name;
                 console.log(response.data)
                 setLoading(false);
             } catch (error) {
@@ -35,6 +42,26 @@ function FlightInfo() {
     if (!flightInfo) {
         return <p>No se encontró información para el vuelo con ID {id}</p>;
     }
+
+    {/*
+    if (data) {
+        if(data.url && data.token){
+            navigate(`\`/compras/${id}/${numTickets}/confirmar\``, {
+                state: {
+                    url: data.url,
+                    token: data.token,
+                    amount,
+                    title,
+                    type,
+                    price,
+                }
+            });
+        }
+
+    }
+    */}
+
+
     const handleIncrement = () => {
         setNumTickets(prevNumTickets => prevNumTickets + 1);
     };
@@ -47,25 +74,63 @@ function FlightInfo() {
         console.log(localStorage.getItem('token'))
         event.preventDefault();
 
-        axios.post(`https://api.legitapp.org/flights/${id}/reservar`, {
+        axios.post(`localhost:3000/flights/${id}/check`, {
             ticketsToBook: numTickets
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then(
-            setExito("comprado 👌")
+            (response) => {
+                console.log('Response body:', response.data);
+
+                if (response.data.valid) {
+                    setExito('Registro exitoso! Ahora se procedera a la compra.');
+                    transactionData()
+
+                } else {
+                    setExito('No se pudo completar la reserva. Inténtalo nuevamente.');
+
+                }
+            }
         ).catch((error) => {
-            console.error('Ocurrió un error:', error);
+            console.error('Ocurrió un error BR:', error);
             //console.log(error.response.data.errors[0].message)
             //console.log((error.response.data['errors']))
-            if ((error.response.data['errors']) == undefined){
-                setMsg(error.response.data)
-            }else{
-                setMsg(error.response.data.errors[0].message)
-            }
-            setError(true); // aquí puede haber más lógica para tratar los errores
+
+
         });
+    }
+
+    const transactionData = async (event) =>{
+        event.preventDefault();
+        axios.post(`localhost:3000/transaction/create`, {
+            flight_id: id,
+            quantity: numTickets
+        }, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(
+            (response) => {
+                navigate(`/compras/confirmar`, {
+                    state: {
+                        url: response.data.url,
+                        token: response.data.token,
+                        amount: numTickets,
+                        destiny: destino,
+                        price: price
+                    }
+                });
+
+            }).catch((error) => {
+            console.error('Ocurrió un error TD:', error);
+            //console.log(error.response.data.errors[0].message)
+            //console.log((error.response.data['errors']))
+
+        });
+
+
     }
 
     return (
@@ -92,7 +157,16 @@ function FlightInfo() {
                     <button onClick={handleIncrement}>+</button>
                 </div>
 
-                <a  onClick={boughtRequest} >{exito} {numTickets} boletos</a>
+                {/*<a  onClick={boughtRequest} >{exito} {numTickets} boletos</a>*/}
+
+
+                    <button onClick={boughtRequest}>
+                        Confirmar Compra
+                    </button>
+
+
+
+
 
 
             </div>
