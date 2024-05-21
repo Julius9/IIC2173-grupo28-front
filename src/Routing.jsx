@@ -6,6 +6,7 @@ import LandingPage from "./LandingPage.jsx";
 import FlightInfo from "./flight/Page.jsx";
 import Flights from "./index/flights.jsx";
 import Bought from "./compras/Bought.jsx";
+import ConfirmPurchase from "./compras/confirmPurchase.jsx";
 
 
 function Routing(){
@@ -18,6 +19,7 @@ function Routing(){
                     <Route path={'/signup'} element={<Signup/>}/>
                     <Route path={'/flights'} element={<Flights/>}/>
                     <Route path={'/compras'} element={<Bought/>}/>
+                    <Route path={'/compras/confirmar'} element={<ConfirmPurchase/>}/>
                     <Route path="/flight/:id" element={<FlightInfo />} />
 
 
