@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  min-width: 1920px;
   margin: 0 auto;
 
   text-align: center;
@@ -7,6 +7,13 @@
 
 .navbar {
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  background: #006eb2;
+  padding: 0;
+  color: #006eb2;
+
   align-content: center;
   top: 0;
   left: 0;
@@ -15,14 +22,14 @@
 /* Style for the navigation bar links */
 .navbar a {
   display: inline-block;
-  color: white;
+  color: #2f2f2f;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
 .navbar a:hover {
-  background-color: #555;
+  background-color: #006eb2;
 }
 
 .imgCenter {
@@ -46,7 +53,7 @@
 }
 
 .page {
-  background-color: #44434b;
+  background-color: #203949;
   text-align: left;
 }
 
