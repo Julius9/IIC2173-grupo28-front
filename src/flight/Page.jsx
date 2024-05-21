@@ -20,7 +20,7 @@ function FlightInfo() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
+                const response = await axios.get(`localhost:3000/flights/${id}`);
                 setFlightInfo(response.data);
                 price = response.data.price;
                 destino = response.data.arrival_airport_name;
@@ -74,7 +74,7 @@ function FlightInfo() {
         console.log(localStorage.getItem('token'))
         event.preventDefault();
 
-        axios.post(`https://api.legitapp.org/flights/${id}/check`, {
+        axios.post(`localhost:3000/flights/${id}/check`, {
             ticketsToBook: numTickets
         }, {
             headers: {
@@ -94,21 +94,17 @@ function FlightInfo() {
                 }
             }
         ).catch((error) => {
-            console.error('Ocurrió un error:', error);
+            console.error('Ocurrió un error BR:', error);
             //console.log(error.response.data.errors[0].message)
             //console.log((error.response.data['errors']))
-            if ((error.response.data['errors']) == undefined){
-                setMsg(error.response.data)
-            }else{
-                setMsg(error.response.data.errors[0].message)
-            }
-            setError(true); // aquí puede haber más lógica para tratar los errores
+
+
         });
     }
 
     const transactionData = async (event) =>{
         event.preventDefault();
-        axios.post(`https://api.legitapp.org/transaction/create`, {
+        axios.post(`localhost:3000/transaction/create`, {
             flight_id: id,
             quantity: numTickets
         }, {
@@ -128,15 +124,10 @@ function FlightInfo() {
                 });
 
             }).catch((error) => {
-            console.error('Ocurrió un error:', error);
+            console.error('Ocurrió un error TD:', error);
             //console.log(error.response.data.errors[0].message)
             //console.log((error.response.data['errors']))
-            if ((error.response.data['errors']) == undefined){
-                setMsg(error.response.data)
-            }else{
-                setMsg(error.response.data.errors[0].message)
-            }
-            setError(true); // aquí puede haber más lógica para tratar los errores
+
         });
 
 
