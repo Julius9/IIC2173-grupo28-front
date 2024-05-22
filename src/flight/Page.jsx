@@ -20,7 +20,9 @@ function FlightInfo() {
         const fetchData = async () => {
             try {
                 setLoading(true);
+
                 const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
+
                 setFlightInfo(response.data);
                 price = response.data.price;
                 destino = response.data.arrival_airport_name;
@@ -74,7 +76,9 @@ function FlightInfo() {
         console.log(localStorage.getItem('token'))
         event.preventDefault();
 
+
         axios.post(`https://api.legitapp.org/flights/${id}/check`, {
+
             ticketsToBook: numTickets
         }, {
             headers: {
@@ -103,8 +107,9 @@ function FlightInfo() {
     }
 
     const transactionData = async (event) =>{
-        event.preventDefault();
+
         axios.post(`https://api.legitapp.org/transaction/create`, {
+
             flight_id: id,
             quantity: numTickets
         }, {
