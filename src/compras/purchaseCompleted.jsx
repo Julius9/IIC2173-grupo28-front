@@ -13,7 +13,7 @@ function CompraCompletada() {
         event.preventDefault();
 
 
-        axios.post(`https://api.legitapp.org/transaction/commit`, {
+        axios.post(`http://localhost:3000/transaction/commit`, {
 
             ws_token: searchParams.get('token_ws') || '',
             request_id: searchParams.get('request_id') || ''
