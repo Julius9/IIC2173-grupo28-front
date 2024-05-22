@@ -4,7 +4,7 @@ import Combobox from "react-widgets/Combobox";
 import InfoBlock from "./infoBlock.jsx";
 
 function Flights() {
-
+    const [page, setPage] = useState(1);
     const [destinoSeleccionado, setDestinoSeleccionado] = useState(null);
     const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
     const [destinos, setDestinos] = useState([]);
@@ -12,10 +12,23 @@ function Flights() {
     const [flights, setFlights] = useState([]);
     const [vuelo, setVuelo] = useState(null);
 
+    const nextPage = () => {
+        setPage(actualPage => actualPage + 1);
+        handleBuscarClick()
+    };
+    const prevPage = () => {
+        if (page > 1){
+            setPage(actualPage => actualPage - 1);
+            handleBuscarClick()
+        }
+
+    };
 
     const chargePage = () => {
         useEffect(() => {
-            axios.get('http://localhost:3000/flights')
+
+            axios.get(`https://api.legitapp.org/flights`)
+
                 .then((response) => {
                     // Verifica si la respuesta es 200 (OK)
                     if (response.status === 200) {
@@ -53,8 +66,11 @@ function Flights() {
         if (fechaSeleccionada !== null) {
             params.date = fechaSeleccionada;
         }
+        params.page = page;
         console.log(params)
-        axios.get('http://localhost:3000/flights', {
+
+        axios.get('https://api.legitapp.org/flights', {
+
             params
         })
             .then(response => {
@@ -71,7 +87,8 @@ function Flights() {
     return (
         <div>
             <h1>Lista de Vuelos</h1>
-            <div className="navbar">
+            <div>
+                <div className="searchblock">
                 <div>Busqueda por filtros: </div>
                 <div>
                     Aeropuerto de LLegada:
@@ -91,14 +108,28 @@ function Flights() {
                     />
                 </div>
                 <button variant="outlined" onClick={handleBuscarClick}>Buscar</button>
-            </div>
-            <br/>
-            <div className="info-blocks">
-                {flights.map((flight, index) => (
 
-                    <InfoBlock key={index} flight={flight} />
-                ))}
+
             </div>
+                <div className="pageBox">
+                    <b>Pagina</b>
+
+                    <div className="pageBar">
+                        <button onClick={prevPage} >Prev </button>
+                        <div>{page}</div>
+                        <button onClick={nextPage} >Next </button>
+                    </div>
+
+                </div>
+                <br/>
+                <div className="info-blocks">
+                    {flights.map((flight, index) => (
+
+                        <InfoBlock key={index} flight={flight} />
+                    ))}
+                </div></div>
+
+
         </div>
     );
 }

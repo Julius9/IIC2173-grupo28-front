@@ -31,7 +31,9 @@ function Login() {
     };
 
     return (
-        <div className="Login">
+        <div className='loginDiv'>
+            <div className="Login">
+                <img src="https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png" alt="icon user" style={{ width: '100px', marginBottom: '10px' }} />
             {msg.length > 0 && <div className="successMsg"> {msg} </div>}
             {error && <div className="error">Hubo un error con el Login, por favor trata nuevamente.</div>}
             <form onSubmit={handleSubmit}>
@@ -58,6 +60,8 @@ function Login() {
                 <input type="submit" value="Enviar" />
             </form>
         </div>
+        </div>
+
     );
 }
 
