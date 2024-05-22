@@ -10,7 +10,7 @@ function CompraCompletada() {
 
     const commitTransaction = async (event) => {
         console.log(localStorage.getItem('token'))
-        event.preventDefault();
+        // event.preventDefault();
 
 
         axios.post(`http://localhost:3000/transaction/commit`, {
@@ -38,16 +38,7 @@ function CompraCompletada() {
         });
     }
 
-
-
-
-    if (isLoading) {
-        return (
-            <div className="p-20">
-                <h1>Loading...</h1>
-            </div>
-        )
-    }
+    commitTransaction();
 
     console.log(data)
 
