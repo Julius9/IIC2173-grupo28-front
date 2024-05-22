@@ -20,7 +20,7 @@ function FlightInfo() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`localhost:3000/flights/${id}`);
+                const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
                 setFlightInfo(response.data);
                 price = response.data.price;
                 destino = response.data.arrival_airport_name;
@@ -74,7 +74,7 @@ function FlightInfo() {
         console.log(localStorage.getItem('token'))
         event.preventDefault();
 
-        axios.post(`localhost:3000/flights/${id}/check`, {
+        axios.post(`https://api.legitapp.org/flights/${id}/check`, {
             ticketsToBook: numTickets
         }, {
             headers: {
@@ -104,7 +104,7 @@ function FlightInfo() {
 
     const transactionData = async (event) =>{
         event.preventDefault();
-        axios.post(`localhost:3000/transaction/create`, {
+        axios.post(`https://api.legitapp.org/transaction/create`, {
             flight_id: id,
             quantity: numTickets
         }, {
@@ -140,18 +140,18 @@ function FlightInfo() {
             <div className="page">
 
 
-                <p>Aerolínea: {flightInfo.airline}</p>
-                <p>Aeropuerto de Salida: {flightInfo.departure_airport_name} ({flightInfo.departure_airport_id})</p>
-                <p>Aeropuerto de Llegada: {flightInfo.arrival_airport_name} ({flightInfo.arrival_airport_id})</p>
-                <p>Fecha de Salida: {new Date(flightInfo.departure_airport_time).toLocaleString()}</p>
-                <p>Fecha de Llegada: {new Date(flightInfo.arrival_airport_time).toLocaleString()}</p>
-                <p>⏳Duración del Vuelo: {flightInfo.duration} minutos</p>
-                <p>✈Avión: {flightInfo.airplane}</p>
-                <p>💳Precio: {flightInfo.price} {flightInfo.currency}</p>
-                <p>💺Boletos Restantes: {flightInfo.tickets_left}</p>
+                <p> <b>Aerolínea:</b> {flightInfo.airline}</p>
+                <p><b>Aeropuerto de Salida:</b> {flightInfo.departure_airport_name} ({flightInfo.departure_airport_id})</p>
+                <p><b>Aeropuerto de Llegada:</b> {flightInfo.arrival_airport_name} ({flightInfo.arrival_airport_id})</p>
+                <p><b>Fecha de Salida:</b> {new Date(flightInfo.departure_airport_time).toLocaleString()}</p>
+                <p><b>Fecha de Llegada:</b> {new Date(flightInfo.arrival_airport_time).toLocaleString()}</p>
+                <p><b>⏳Duración del Vuelo:</b> {flightInfo.duration} minutos</p>
+                <p>✈<b>Avión:</b> {flightInfo.airplane}</p>
+                <p>💳<b>Precio:</b> {flightInfo.price} {flightInfo.currency}</p>
+                <p>💺<b>Boletos Restantes:</b> {flightInfo.tickets_left}</p>
                 <br/>
 
-                <div>
+                <div className="calculate">
                     <button onClick={handleDecrement}>-</button>
                     <span>{numTickets}</span>
                     <button onClick={handleIncrement}>+</button>
