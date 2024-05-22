@@ -20,7 +20,7 @@ function FlightInfo() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`localhost:3000/flights/${id}`);
+                const response = await axios.get(`http://localhost:3000/flights/${id}`);
                 setFlightInfo(response.data);
                 price = response.data.price;
                 destino = response.data.arrival_airport_name;
@@ -74,7 +74,7 @@ function FlightInfo() {
         console.log(localStorage.getItem('token'))
         event.preventDefault();
 
-        axios.post(`localhost:3000/flights/${id}/check`, {
+        axios.post(`http://localhost:3000/flights/${id}/check`, {
             ticketsToBook: numTickets
         }, {
             headers: {
@@ -103,8 +103,7 @@ function FlightInfo() {
     }
 
     const transactionData = async (event) =>{
-        event.preventDefault();
-        axios.post(`localhost:3000/transaction/create`, {
+        axios.post(`http://localhost:3000/transaction/create`, {
             flight_id: id,
             quantity: numTickets
         }, {
