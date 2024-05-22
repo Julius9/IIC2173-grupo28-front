@@ -15,7 +15,7 @@ function Flights() {
 
     const chargePage = () => {
         useEffect(() => {
-            axios.get('https://api.legitapp.org/flights')
+            axios.get('http://localhost:3000/flights')
                 .then((response) => {
                     // Verifica si la respuesta es 200 (OK)
                     if (response.status === 200) {
@@ -54,7 +54,7 @@ function Flights() {
             params.date = fechaSeleccionada;
         }
         console.log(params)
-        axios.get('https://api.legitapp.org/flights', {
+        axios.get('http://localhost:3000/flights', {
             params
         })
             .then(response => {
