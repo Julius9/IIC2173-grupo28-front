@@ -4,6 +4,90 @@
 
   text-align: center;
 }
+
+.loginDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f8ff; /* Fondo general de la página */
+}
+
+.Login {
+  background-color: #006eb2; /* Celeste claro */
+  padding: 30px;
+  border-radius: 15px;
+  color: white;
+  width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.Login form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.Login label {
+  margin-bottom: 15px;
+  width: 100%;
+  color: white;
+}
+
+.Login input[type="text"],
+.Login input[type="email"],
+.Login input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  margin-top: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.Login input[type="text"]::placeholder,
+.Login input[type="email"]::placeholder,
+.Login input[type="password"]::placeholder {
+  color: #ffffff;
+}
+
+.Login input[type="submit"] {
+  background-color: #ffffff;
+  color: #87CEEB;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+  margin-top: 20px;
+}
+
+.Login input[type="submit"]:hover {
+  background-color: #add8e6;
+}
+
+.successMsg, .error {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+}
+
+.successMsg {
+  border: 2px solid #00ff00;
+}
+
+.error {
+  border: 2px solid #ff0000;
+}
+
+
 .searchblock {
   background-color: #006eb2;
   padding: 20px;

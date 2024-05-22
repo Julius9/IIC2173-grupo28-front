@@ -44,7 +44,7 @@ function Signup() {
 
                 <form onSubmit={handleSubmit}>
                     <label>
-                        Username:
+                        Tu Apodo:
                         <input
                             type="text"
                             name="username"
