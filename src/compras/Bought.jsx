@@ -12,7 +12,7 @@ function Bought(){
     const chargePage = () => {
 
         useEffect(() => {
-            axios.get('https://api.legitapp.org/compras',  {
+            axios.get('http://localhost:3000/compras',  {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }})
