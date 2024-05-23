@@ -25,7 +25,7 @@ function Routing(){
                     <Route path={'/compras/confirmar'} element={<ConfirmPurchase/>}/>
                     <Route path={'/compra-completada'} element={<CompraCompletada/>}/>
                     <Route path="/flight/:id" element={<FlightInfo />} />
-                    <Route path="/workers" element={<Workers/>}/>
+                    <Route path="/heartbeat" element={<Workers/>}/>
                     <Route path="/recomendaciones" element={<Recomendation/>}/>
 
 
