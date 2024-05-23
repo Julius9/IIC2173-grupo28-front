@@ -5,6 +5,8 @@ function Confirm() {
     const location = useLocation();
     const { url, token, amount, destiny, price } = location.state;
 
+    console.log(price, amount)
+
     return (
         <div className="p-20">
             <p className="text-6xl text-center font-extrabold text-sky-500">Confirmar compra</p>
@@ -15,7 +17,9 @@ function Confirm() {
                     <p>Destino: {destiny}</p>
                     <p>Cantidad: {amount}</p>
                 </div>
-                <button className="bg-sky-500 text-white rounded px-5 py-2" type="submit">Pagar ${price * amount}</button>
+                <button className="bg-sky-500 text-white rounded px-5 py-2" type="submit">
+                    {price && amount ? `Pagar $${price * amount}` : 'Pagar $0'}
+                </button>
             </form>
         </div>
     );
