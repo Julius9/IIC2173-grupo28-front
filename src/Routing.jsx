@@ -8,6 +8,8 @@ import Flights from "./index/flights.jsx";
 import Bought from "./compras/Bought.jsx";
 import ConfirmPurchase from "./compras/confirmPurchase.jsx";
 import CompraCompletada from "./compras/purchaseCompleted.jsx";
+import Workers from "./workers/woerkers.jsx";
+import Recomendation from "./index/recomendation.jsx";
 
 
 function Routing(){
@@ -23,6 +25,8 @@ function Routing(){
                     <Route path={'/compras/confirmar'} element={<ConfirmPurchase/>}/>
                     <Route path={'/compra-completada'} element={<CompraCompletada/>}/>
                     <Route path="/flight/:id" element={<FlightInfo />} />
+                    <Route path="/workers" element={<Workers/>}/>
+                    <Route path="/recomendaciones" element={<Recomendation/>}/>
 
 
 
