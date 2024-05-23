@@ -11,7 +11,7 @@ function Login() {
         event.preventDefault();
 
         try {
-            const response = await axios.post(`http://localhost:3003/api/auth/login`, {
+            const response = await axios.post(`https://api.legitapp.org/api/auth/login`, {
                 mail: mail,
                 password: password
             });
