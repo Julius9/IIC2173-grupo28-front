@@ -2,36 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfoBlock from "./infoBlock.jsx";
 
-function Recomendation(){
+function Recomendation() {
     const [flights, setFlights] = useState([]);
     const [date, setDate] = useState('2024-01-01');
     const [response, setResponse] = useState(false);
-    const chargePage = () => {
-        useEffect(() => {
 
-            axios.get(`https://api.legitapp.org/latest`)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://api.legitapp.org/latest`);
+                if (response.status === 200) {
+                    const data = response.data.result;
+                    setDate(response.data.completedAt);
+                    setFlights(data);
+                    setResponse(true);
+                }
+            } catch (error) {
+                console.log("Error en recomendation:", error);
+            }
+        };
 
-                .then((response) => {
-                    // Verifica si la respuesta es 200 (OK)
-                    if (response.status === 200) {
-                        console.log("ingresa la request")
-                        const data = response.result;
-                        console.log(response.data);
-                        setDate(response.completedAt);
-
-                        setFlights(data);
-                        setResponse(true)
-
-
-                    }
-                })
-                .catch((error) => {
-                    console.log("Error en recomendation:", error)
-
-                });
-        }, []);
-    };
-    chargePage()
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -47,11 +39,11 @@ function Recomendation(){
                         {flights.map((flight, index) => (
                             <InfoBlock key={index} flight={flight} />
                         ))}
-                    </div></div>
-
+                    </div>
+                </div>
             )}
         </>
-    )
-
+    );
 }
-export default Recomendation
+
+export default Recomendation;
