@@ -16,15 +16,16 @@ function Recomendation() {
                     }});
                 if (response.status === 200) {
                     const data = response.data.result;
+                    console.log(response)
                     const vuelos = []
-                    data.forEach((f) => {
-                        vuelos.push(fetchVuelos(f.flightID));
-
-                    });
+                    //data.forEach((f) => {
+                    //    vuelos.push(fetchVuelos(f.flightId));
+                    //    console.log(fetchVuelos(f.flightId))
+                    //});
 
 
                     setDate(response.data.completedAt);
-                    setFlights(vuelos);
+                    setFlights(data);
                     setResponse(true);
                 }
             } catch (error) {
@@ -37,15 +38,14 @@ function Recomendation() {
 
     const fetchVuelos = async (id) => {
         try {
-            setLoading(true);
 
             const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
+            console.log(response)
 
 
             return response.data;
         } catch (error) {
             console.error('Error al obtener la información del vuelo:', error);
-            setLoading(false);
         }
     };
 
@@ -60,10 +60,12 @@ function Recomendation() {
                 <h2><b>No has realizado compras</b></h2>
             ) : (
                 <div>
-                    <h2><b>Ultima actualizacion:</b> date</h2>
-                    <div className="info-blocks">
+                    <h2><b>Ultima actualizacion:</b> {date.slice(0,10)}</h2>
+                    <div className="Page">
                         {flights.map((flight, index) => (
-                            <InfoBlock key={index} flight={flight} />
+                            <button key={index}>
+                                <a href={`/flight/${flight.flightId}`}>Vuelo {flight.flightId}</a>
+                                </button>
                         ))}
                     </div>
                 </div>
