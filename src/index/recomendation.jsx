@@ -16,8 +16,15 @@ function Recomendation() {
                     }});
                 if (response.status === 200) {
                     const data = response.data.result;
+                    const vuelos = []
+                    data.forEach((f) => {
+                        vuelos.push(fetchVuelos(f.flightID));
+
+                    });
+
+
                     setDate(response.data.completedAt);
-                    setFlights(data);
+                    setFlights(vuelos);
                     setResponse(true);
                 }
             } catch (error) {
@@ -27,6 +34,22 @@ function Recomendation() {
 
         fetchData();
     }, []);
+
+    const fetchVuelos = async (id) => {
+        try {
+            setLoading(true);
+
+            const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
+
+
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener la información del vuelo:', error);
+            setLoading(false);
+        }
+    };
+
+
 
     return (
         <>

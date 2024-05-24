@@ -28,6 +28,7 @@ function CompraCompletada() {
                 (response) => {
                     console.log('Response body:', response.data);
                     setData(response.data)
+                    rRequest()
 
                 }
             ).catch((error) => {
