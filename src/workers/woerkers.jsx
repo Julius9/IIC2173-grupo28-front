@@ -5,7 +5,10 @@ function Workers(){
     const chargePage = () => {
         useEffect(() => {
 
-            axios.get(`https://api.legitapp.org/heartbeat`)
+            axios.get(`https://api.legitapp.org/heartbeat`,  {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }})
 
                 .then((response) => {
                     // Verifica si la respuesta es 200 (OK)

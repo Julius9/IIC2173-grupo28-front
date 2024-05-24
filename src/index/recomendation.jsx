@@ -10,7 +10,10 @@ function Recomendation() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://api.legitapp.org/latest`);
+                const response = await axios.get(`https://api.legitapp.org/latest`,  {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }});
                 if (response.status === 200) {
                     const data = response.data.result;
                     setDate(response.data.completedAt);
