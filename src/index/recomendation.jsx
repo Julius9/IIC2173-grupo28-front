@@ -37,7 +37,7 @@ function Recomendation() {
                 <h2><b>No has realizado compras</b></h2>
             ) : (
                 <div>
-                    <h2><b>Ultima actualizacion:</b> {date.slice(0, 10)}</h2>
+                    <h2><b>Ultima actualizacion:</b> date</h2>
                     <div className="info-blocks">
                         {flights.map((flight, index) => (
                             <InfoBlock key={index} flight={flight} />

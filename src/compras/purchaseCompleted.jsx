@@ -41,6 +41,20 @@ function CompraCompletada() {
         commitTransaction();
     }, [searchParams]);
 
+    const rRequest = async (event) => {
+
+
+            axios.post(`https://api.legitapp.org/job`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }).then(
+            ).catch((error) => {
+                console.error('Ocurrió un error CT:', error);
+            })
+
+    }
+
     console.log("Esta es la data: ", data)
 
     return (
