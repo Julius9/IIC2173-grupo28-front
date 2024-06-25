@@ -8,16 +8,22 @@ function App() {
     if (localStorage.getItem('token')){
         iniciadoSesion = true;
     }
+    let admin = false;
+    if (localStorage.getItem('admin')){
+        admin = true;
+    }
 
     function handleLogout(){
         localStorage.removeItem('token');
         console.log(localStorage.getItem('token'))
+        localStorage.removeItem('admin')
 
     }
 
   return (
     <>
         <div className="navbar">
+            {admin && <a> admin💺</a>}
             <a href='/'>⌂ Home </a>
             <a href='/flights'> Vuelos ✈ </a>
             {iniciadoSesion && <a href= '/compras'>Mis compras</a>}
