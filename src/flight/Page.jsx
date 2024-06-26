@@ -16,6 +16,7 @@ function FlightInfo() {
     const [newDiscount, setNewDiscount] = useState(0);
     const [offer, setOffer] = useState(1);
     const [permission, setPermision] = useState("");
+    const [stock, setStock] = useState(0);
 
 
     useEffect(() => {
@@ -91,7 +92,7 @@ function FlightInfo() {
                     setExito('Registro exitoso! Ahora se procedera a la compra.');
                     transactionData();
                 } else {
-                    setExito('No se pudo completar la reserva. Inténtalo nuevamente.');
+                    setExito('No se pudo completar obtener pasajes. Inténtalo nuevamente.');
                 }
             }
         ).catch((error) => {
@@ -103,7 +104,7 @@ function FlightInfo() {
     const offerTickets = async () => {
         if (localStorage.getItem('admin')){
             axios.post(`https://api.legitapp.org/flights/${id}/auction`,
-                { ticketsToBook: offer,
+                { ticketsToPropose: offer,
                     isAdmin: localStorage.getItem('admin') },
                 { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
                 .then((response) => {
@@ -184,6 +185,12 @@ function FlightInfo() {
         });
     }
 
+    const getOurReservations = async () => {
+        // obtengo informacion si es que nosotros tenemos pasajes
+        console.log(stock)
+    }
+   getOurReservations()
+
     return (
         <>
             <h1>Información del Vuelo</h1>
@@ -198,6 +205,7 @@ function FlightInfo() {
                 <p>✈<b>Avión:</b> {flightInfo.airplane}</p>
                 <p>💳<b>Precio:</b> {flightInfo.price} {flightInfo.currency}</p>
                 <p>💺<b>Boletos Restantes:</b> {flightInfo.tickets_left}</p>
+                <p>💺<b>Boletos en nuestro Stock:</b> {stock}</p>
                 <br/>
                 <div className="calculate">
                     <button onClick={handleDecrement}>-</button>
@@ -206,6 +214,7 @@ function FlightInfo() {
                 </div>
                 <div>
                     <h1>{Permision}</h1>
+                    <h1>{exito}</h1>
                     <button onClick={boughtFromGlobal}>
                         Comprar del Mercado
                     </button>
