@@ -13,6 +13,11 @@ function FlightInfo() {
     const [price, setPrice] = useState(0);
     const [destino, setDestino] = useState("");
     const [reserved, setReserved] = useState(false);
+    const [newDiscount, setNewDiscount] = useState(0);
+    const [offer, setOffer] = useState(1);
+    const [requested, setRequested] = useState(1);
+    const [calculator, setCalculator] = useState(1);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,12 +56,44 @@ function FlightInfo() {
         setNumTickets(prevNumTickets => Math.max(1, prevNumTickets - 1)); // Asegura que el contador no sea menor que 1
     };
 
+    const incrementOffer = () => {
+        setOffer(d => d + 1);
+    };
+
+    const decrementOffer = () => {
+        setOffer(d => Math.max(1, d - 1)); // Asegura que el contador no sea menor que 1
+    };
+
+    const incrementOfferFive = () => {
+        setOffer(d => d + 5);
+    };
+
+    const decrementOfferFive = () => {
+        setOffer(d => Math.max(1, d - 5)); // Asegura que el contador no sea menor que 1
+    };
+
+    const incrementRequest = () => {
+        setRequested(d => d + 1);
+    };
+
+    const decrementRequest = () => {
+        setRequested(d => Math.max(1, d - 1)); // Asegura que el contador no sea menor que 1
+    };
+
+    const incrementRequestFive = () => {
+        setRequested(d => d + 5);
+    };
+
+    const decrementRequestFive = () => {
+        setRequested(d => Math.max(1, d - 5)); // Asegura que el contador no sea menor que 1
+    };
+
     const boughtRequest = async (event) => {
 
         event.preventDefault();
 
         axios.post(`https://api.legitapp.org/flights/${id}/check`, {
-            ticketsToBook: numTickets, isReserve: reserved, isAdmin: localStorage.getItem('admin')
+            ticketsToBook: numTickets, isReservation: reserved, isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -79,7 +116,9 @@ function FlightInfo() {
 
     //Subasta
     const offerTickets = async () => {
-        axios.post(`https://api.legitapp.org/flights/${id}/auction`, { ticketsToBook: numTickets },
+        axios.post(`https://api.legitapp.org/flights/${id}/auction`,
+            { ticketsToBook: offer,
+                isAdmin: localStorage.getItem('admin') },
             { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
             .then((response) => {
                 console.log('Tickets ofrecidos con exito')
@@ -106,7 +145,7 @@ function FlightInfo() {
         axios.post(`https://api.legitapp.org/transaction/create`, {
             flight_id: id,
             quantity: numTickets,
-            isReserve: reserved,
+            isReservation: reserved,
             isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
@@ -167,18 +206,53 @@ function FlightInfo() {
                     </button>
                 </div>
 
-                <div className="panelControl">
-                    <div className="OfferPanel">
 
+
+
+            </div>
+            <div className="panelControl">
+                <h1>Panel de Control [ADMIN]</h1>
+                <div className="OfferPanel">
+                    <h1>Panel de Ofertas</h1>
+                    <div className="Discounts">
+                        <button>0</button>
+                        <button>5</button>
+                        <button>10</button>
+                        <button>20</button>
                     </div>
-                    <div className="SubastaPanel">
-                        <button onClick={offerTickets}>
-                            Ofertar Tickets en Subasta
-                        </button>
-                    </div>
+                    <button>Activar Descuento</button>
 
                 </div>
+                <div className="SubastaPanel">
+                    <h1>Panel de Subastas</h1>
+                    <div className="calculator">
+                        <h2>Ofrecemos</h2>
+                        <div className="view">
+                            <button onClick={incrementOfferFive}>+5</button>
+                            <button onClick={incrementOffer}>+</button>
+                            <span>{offer}</span>
+                            <button onClick={decrementOffer}>-</button>
+                            <button onClick={decrementOfferFive}>-5</button>
+                        </div>
 
+
+
+                    </div>
+                    <div className="calculator">
+                        <h2>Solicitamos</h2>
+                        <div className="view">
+                            <button onClick={incrementRequestFive}>+5</button>
+                            <button onClick={incrementRequest}>+</button>
+                            <span>{requested}</span>
+                            <button onClick={decrementRequest}>-</button>
+                            <button onClick={decrementRequestFive}>-</button>
+                        </div>
+                    </div>
+
+                    <button onClick={offerTickets}>
+                        Ofertar Tickets en Subasta
+                    </button>
+                </div>
 
             </div>
         </>
