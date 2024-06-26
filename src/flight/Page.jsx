@@ -12,6 +12,7 @@ function FlightInfo() {
     const [exito, setExito] = useState("comprar");
     const [price, setPrice] = useState(0);
     const [destino, setDestino] = useState("");
+    const [reserved, setReserved] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,11 +52,11 @@ function FlightInfo() {
     };
 
     const boughtRequest = async (event) => {
-        console.log(localStorage.getItem('token'));
+
         event.preventDefault();
 
         axios.post(`https://api.legitapp.org/flights/${id}/check`, {
-            ticketsToBook: numTickets
+            ticketsToBook: numTickets, isReserve: reserved, isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -76,10 +77,37 @@ function FlightInfo() {
         });
     }
 
+    //Subasta
+    const offerTickets = async () => {
+        axios.post(`https://api.legitapp.org/flights/${id}/auction`, { ticketsToBook: numTickets },
+            { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+            .then((response) => {
+                console.log('Tickets ofrecidos con exito')
+            }).catch((error) => {
+                console.error('Ocurrió un error BR:', error);
+            }
+        );
+    }
+    const boughtFromReserve = async (event) => {
+        setReserved(true);
+        await boughtRequest()
+
+    }
+    const boughtFromGlobal = async (event) => {
+        setReserved(false);
+        if (localStorage.getItem('admin')){
+            console.log("Block this")
+        }else{
+            await boughtRequest()
+        }
+    }
+
     const transactionData = async () => {
         axios.post(`https://api.legitapp.org/transaction/create`, {
             flight_id: id,
-            quantity: numTickets
+            quantity: numTickets,
+            isReserve: reserved,
+            isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -121,10 +149,37 @@ function FlightInfo() {
                     <span>{numTickets}</span>
                     <button onClick={handleIncrement}>+</button>
                 </div>
-                <button onClick={boughtRequest}>
-                    Confirmar Compra
-                </button>
-                {/* <p>{exito}</p> */}
+                <div>
+                    <button onClick={boughtFromGlobal}>
+                        Comprar del Mercado
+                    </button>
+
+                    <button onClick={boughtFromReserve}>
+                        Comprar de nuestro Stock
+                    </button>
+
+                    <button onClick={boughtFromGlobal}>
+                        Reservar tickets
+                    </button>
+
+                    <button onClick={offerTickets}>
+                        Ofertar Tickets
+                    </button>
+                </div>
+
+                <div className="panelControl">
+                    <div className="OfferPanel">
+
+                    </div>
+                    <div className="SubastaPanel">
+                        <button onClick={offerTickets}>
+                            Ofertar Tickets en Subasta
+                        </button>
+                    </div>
+
+                </div>
+
+
             </div>
         </>
     );
