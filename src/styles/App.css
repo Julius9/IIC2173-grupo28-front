@@ -303,3 +303,251 @@
   display: block;
   width: 100%;
 }
+
+.panelControl {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #044a75;
+  border: 5px solid #f3ac00;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.Panels{
+  display: flex;
+  justify-content: space-between;
+}
+
+.panelControl h1 {
+  text-align: center;
+  color: #f3ac00;
+  width: 100%;
+}
+
+.OfferPanel, .SubastaPanel {
+  width: 45%;
+  margin: 20px 0;
+  padding: 15px;
+  border: 2px solid #f3ac00;
+  border-radius: 5px;
+  background-color: #0e71b9;
+  box-sizing: border-box;
+}
+
+.OfferPanel h1, .SubastaPanel h1 {
+  font-size: 1.5em;
+  color: #eaeaea;
+  margin-bottom: 15px;
+}
+
+.DiscountButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Discounts{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Discounts button {
+  margin: 5px;
+  width: 120px;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.OfferPanel button{
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+}
+.Discounts button:hover, .OfferPanel button:hover, .SubastaPanel button:hover {
+  background-color: #0056b3;
+}
+
+.SubastaPanel button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.OfferPanel button:hover {
+  background-color: #00fcef;
+}
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.view button {
+  margin: 0 10px;
+}
+
+.subastaSubPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.OfferButton{
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+}
+.subastaSubPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 15%;
+  padding: 15px;
+
+  border-radius: 5px;
+
+  box-sizing: border-box;
+}
+.subastaSubPanel button{
+  max-width: 50%;
+}.panelControl {
+   width: 80%;
+   margin: 0 auto;
+   padding: 20px;
+   background-color: #044a75;
+   border: 5px solid #f3ac00;
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+.Panels{
+  display: flex;
+  justify-content: space-between;
+}
+
+.panelControl h1 {
+  text-align: center;
+  color: #f3ac00;
+  width: 100%;
+}
+
+.OfferPanel, .SubastaPanel {
+  width: 45%;
+  margin: 20px 0;
+  padding: 15px;
+  border: 2px solid #f3ac00;
+  border-radius: 5px;
+  background-color: #0e71b9;
+  box-sizing: border-box;
+}
+
+.OfferPanel h1, .SubastaPanel h1 {
+  font-size: 1.5em;
+  color: #eaeaea;
+  margin-bottom: 15px;
+}
+
+.DiscountButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Discounts{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Discounts button {
+  margin: 5px;
+  width: 120px;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.OfferPanel button{
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+}
+.Discounts button:hover, .OfferPanel button:hover, .SubastaPanel button:hover {
+  background-color: #0056b3;
+}
+
+.SubastaPanel button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.OfferPanel button:hover {
+  background-color: #00fcef;
+}
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.view button {
+  margin: 0 10px;
+}
+
+.subastaSubPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.OfferButton{
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+}
+.subastaSubPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 15%;
+  padding: 15px;
+
+  border-radius: 5px;
+
+  box-sizing: border-box;
+}
+.subastaSubPanel button{
+  max-width: 50%;
+}
