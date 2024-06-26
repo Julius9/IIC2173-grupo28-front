@@ -15,8 +15,7 @@ function FlightInfo() {
     const [reserved, setReserved] = useState(false);
     const [newDiscount, setNewDiscount] = useState(0);
     const [offer, setOffer] = useState(1);
-    const [requested, setRequested] = useState(1);
-    const [calculator, setCalculator] = useState(1);
+    const [permission, setPermision] = useState("");
 
 
     useEffect(() => {
@@ -72,21 +71,7 @@ function FlightInfo() {
         setOffer(d => Math.max(1, d - 5)); // Asegura que el contador no sea menor que 1
     };
 
-    const incrementRequest = () => {
-        setRequested(d => d + 1);
-    };
 
-    const decrementRequest = () => {
-        setRequested(d => Math.max(1, d - 1)); // Asegura que el contador no sea menor que 1
-    };
-
-    const incrementRequestFive = () => {
-        setRequested(d => d + 5);
-    };
-
-    const decrementRequestFive = () => {
-        setRequested(d => Math.max(1, d - 5)); // Asegura que el contador no sea menor que 1
-    };
 
     const boughtRequest = async (event) => {
 
@@ -116,28 +101,59 @@ function FlightInfo() {
 
     //Subasta
     const offerTickets = async () => {
-        axios.post(`https://api.legitapp.org/flights/${id}/auction`,
-            { ticketsToBook: offer,
-                isAdmin: localStorage.getItem('admin') },
-            { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
-            .then((response) => {
-                console.log('Tickets ofrecidos con exito')
-            }).catch((error) => {
-                console.error('Ocurrió un error BR:', error);
-            }
-        );
+        if (localStorage.getItem('admin')){
+            axios.post(`https://api.legitapp.org/flights/${id}/auction`,
+                { ticketsToBook: offer,
+                    isAdmin: localStorage.getItem('admin') },
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+                .then((response) => {
+                    console.log('Tickets ofrecidos con exito')
+                }).catch((error) => {
+                    console.error('Ocurrió un error BR:', error);
+                }
+            );
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+
     }
     const boughtFromReserve = async (event) => {
         setReserved(true);
-        await boughtRequest()
+        if (localStorage.getItem('admin')){
+            setPermision("Permisos Invalidos ERES un usuario [ADMIN]")
+        }else{
+            await boughtRequest()
+        }
 
     }
     const boughtFromGlobal = async (event) => {
         setReserved(false);
         if (localStorage.getItem('admin')){
-            console.log("Block this")
+            setPermision("Permisos Invalidos ERES un usuario [ADMIN]")
         }else{
             await boughtRequest()
+        }
+    }
+    const boughtToReserve = async (event)=>{
+        if (localStorage.getItem('admin')){
+            await boughtRequest()
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+    }
+
+    const activateDiscount = async (event) =>{
+        if (localStorage.getItem('admin')){
+            console.log("activar descuento")
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+    }
+    const deactivateDiscount = async (event) =>{
+        if (localStorage.getItem('admin')){
+            console.log("desactivar descuento")
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
         }
     }
 
@@ -189,6 +205,7 @@ function FlightInfo() {
                     <button onClick={handleIncrement}>+</button>
                 </div>
                 <div>
+                    <h1>{Permision}</h1>
                     <button onClick={boughtFromGlobal}>
                         Comprar del Mercado
                     </button>
@@ -197,13 +214,10 @@ function FlightInfo() {
                         Comprar de nuestro Stock
                     </button>
 
-                    <button onClick={boughtFromGlobal}>
+                    <button onClick={boughtToReserve}>
                         Reservar tickets
                     </button>
 
-                    <button onClick={offerTickets}>
-                        Ofertar Tickets
-                    </button>
                 </div>
 
 
@@ -212,49 +226,43 @@ function FlightInfo() {
             </div>
             <div className="panelControl">
                 <h1>Panel de Control [ADMIN]</h1>
-                <div className="OfferPanel">
-                    <h1>Panel de Ofertas</h1>
-                    <div className="Discounts">
-                        <button>0</button>
-                        <button>5</button>
-                        <button>10</button>
-                        <button>20</button>
-                    </div>
-                    <button>Activar Descuento</button>
-
-                </div>
-                <div className="SubastaPanel">
-                    <h1>Panel de Subastas</h1>
-                    <div className="calculator">
-                        <h2>Ofrecemos</h2>
-                        <div className="view">
-                            <button onClick={incrementOfferFive}>+5</button>
-                            <button onClick={incrementOffer}>+</button>
-                            <span>{offer}</span>
-                            <button onClick={decrementOffer}>-</button>
-                            <button onClick={decrementOfferFive}>-5</button>
-                        </div>
-
-
-
-                    </div>
-                    <div className="calculator">
-                        <h2>Solicitamos</h2>
-                        <div className="view">
-                            <button onClick={incrementRequestFive}>+5</button>
-                            <button onClick={incrementRequest}>+</button>
-                            <span>{requested}</span>
-                            <button onClick={decrementRequest}>-</button>
-                            <button onClick={decrementRequestFive}>-</button>
+                <h1>{Permision}</h1>
+                <div className="Panels">
+                    <div className="OfferPanel">
+                        <h1>Panel de Ofertas</h1>
+                        <div className="DiscountButtons">
+                            <h3>Descuento a ofrecer: {newDiscount}%</h3>
+                            <div className="Discounts">
+                                <button onClick={setNewDiscount(0)}> 0%</button>
+                                <button onClick={setNewDiscount(5)}> 5% </button>
+                                <button onClick={setNewDiscount(10)}>10%</button>
+                                <button onClick={setNewDiscount(20)}>20%</button>
+                            </div>
+                            <button className="Activate" onClick={activateDiscount}>Activar Descuento</button>
+                            <button className="Activate" onClick={deactivateDiscount}>Desactivar Descuento</button>
                         </div>
                     </div>
-
-                    <button onClick={offerTickets}>
-                        Ofertar Tickets en Subasta
-                    </button>
+                    <div className="SubastaPanel">
+                        <h1>Panel de Subastas</h1>
+                        <div className="subastaSubPanel">
+                            <div className="calculator">
+                                <div className="view">
+                                    <button onClick={incrementOfferFive}>+5</button>
+                                    <button onClick={incrementOffer}>+</button>
+                                    <br />
+                                    <h3>Ofreceremos: {offer}</h3>
+                                    <br />
+                                    <button onClick={decrementOffer}>-</button>
+                                    <button onClick={decrementOfferFive}>-5</button>
+                                </div>
+                            </div>
+                            <br />
+                            <button className="OfferButton" onClick={offerTickets}>Ofertar Tickets en Subasta</button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
+
         </>
     );
 }
