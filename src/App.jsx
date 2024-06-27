@@ -26,8 +26,12 @@ function App() {
             {admin && <a> admin💺</a>}
             <a href='/'>⌂ Home </a>
             <a href='/flights'> Vuelos ✈ </a>
-            {iniciadoSesion && <a href= '/compras'>Mis compras</a>}
+            <a href='/stock'> Stock de pasajes 💺 </a>
+            {
+                //{iniciadoSesion && <a href= '/compras'>Mis compras</a>}}
+            }
             {iniciadoSesion && <a href= '/recomendaciones'>Recomendaciones de Vuelos</a>}
+            {admin && <a href='/auctions'> Subastas💺</a>}
             <a href='/heartbeat'> workers  🛠</a>
             {iniciadoSesion && <a onClick={handleLogout}>Log Out</a>}
             {!iniciadoSesion &&<a href= '/login'>Iniciar Sesión</a>}
