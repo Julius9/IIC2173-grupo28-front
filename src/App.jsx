@@ -27,9 +27,7 @@ function App() {
             <a href='/'>⌂ Home </a>
             <a href='/flights'> Vuelos ✈ </a>
             <a href='/stock'> Stock de pasajes 💺 </a>
-            {
-                //{iniciadoSesion && <a href= '/compras'>Mis compras</a>}}
-            }
+
             {iniciadoSesion && <a href= '/recomendaciones'>Recomendaciones de Vuelos</a>}
             {admin && <a href='/auctions'> Subastas💺</a>}
             <a href='/heartbeat'> workers  🛠</a>

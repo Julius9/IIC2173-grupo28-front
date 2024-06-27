@@ -26,6 +26,13 @@ function FlightInfo() {
 
                 const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
                 const data = response.data;
+                const stockResponse = await axios.post(`https://api.legitapp.org/flights/reserved/${id}`)
+                    .then((response) => {
+                        setStock(response.num_boletos)
+                    }).catch((error) => {
+                            console.error('Ocurrió un error de Reservas:', error);
+                        }
+                    );
 
                 setFlightInfo(data);
                 setPrice(data.price); // Actualiza el estado del precio
@@ -101,7 +108,8 @@ function FlightInfo() {
     }
 
     //Subasta
-    const offerTickets = async () => {
+    const offerTickets = async (event) => {
+
         if (localStorage.getItem('admin')){
             axios.post(`https://api.legitapp.org/flights/${id}/auction`,
                 { ticketsToPropose: offer,
@@ -207,19 +215,7 @@ function FlightInfo() {
         });
     }
 
-    const getOurReservations = async () => {
-        // obtengo informacion si es que nosotros tenemos pasajes
 
-        console.log("activar descuento");
-        axios.post(`https://api.legitapp.org/flights/reserved/${id}`)
-                .then((response) => {
-                    setStock(response.num_boletos)
-                }).catch((error) => {
-                    console.error('Ocurrió un error BR:', error);
-                }
-            );
-    }
-   getOurReservations()
 
     return (
         <>
@@ -242,9 +238,10 @@ function FlightInfo() {
                     <span>{numTickets}</span>
                     <button onClick={handleIncrement}>+</button>
                 </div>
+                <h1>{permision}</h1>
+                <h1>{exito}</h1>
                 <div>
-                    <h1>{permision}</h1>
-                    <h1>{exito}</h1>
+
                     <button onClick={boughtFromGlobal}>
                         Comprar del Mercado
                     </button>
@@ -272,9 +269,9 @@ function FlightInfo() {
                         <div className="DiscountButtons">
                             <h3>Descuento a ofrecer: {newDiscount}%</h3>
                             <div className="Discounts">
-                                <button onClick={setNewDiscount(0.05)}> 5% </button>
-                                <button onClick={setNewDiscount(0.1)}>10%</button>
-                                <button onClick={setNewDiscount(0.2)}>20%</button>
+                                <button onClick={() =>setNewDiscount(0.05)}> 5% </button>
+                                <button onClick={() =>setNewDiscount(0.1)}>10%</button>
+                                <button onClick={() =>setNewDiscount(0.2)}>20%</button>
                             </div>
                             <button className="Activate" onClick={activateDiscount}>Activar Descuento</button>
                             <button className="Activate" onClick={deactivateDiscount}>Desactivar Descuento</button>
