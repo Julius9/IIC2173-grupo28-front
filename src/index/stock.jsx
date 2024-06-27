@@ -12,22 +12,13 @@ function Stock() {
     const [flights, setFlights] = useState([]);
     const [vuelo, setVuelo] = useState(null);
 
-    const nextPage = () => {
-        setPage(actualPage => actualPage + 1);
-        handleBuscarClick()
-    };
-    const prevPage = () => {
-        if (page > 1){
-            setPage(actualPage => actualPage - 1);
-            handleBuscarClick()
-        }
 
-    };
+
 
     const chargePage = () => {
         useEffect(() => {
 
-            axios.get(`https://api.legitapp.org/flights`)
+            axios.post(`https://api.legitapp.org/flights/reserved`)
 
                 .then((response) => {
                     // Verifica si la respuesta es 200 (OK)
@@ -57,70 +48,14 @@ function Stock() {
         }, []);
     };
 
-    const handleBuscarClick = () => {
-        const params = {};
-        if (destinoSeleccionado !== null) {
-            params.arrival = destinoSeleccionado;
 
-        }
-        if (fechaSeleccionada !== null) {
-            params.date = fechaSeleccionada;
-        }
-        params.page = page;
-        console.log(params)
-
-        axios.get('https://api.legitapp.org/flights', {
-
-            params
-        })
-            .then(response => {
-
-                console.log('Respuesta de la solicitud:', response.data);
-                setFlights(response.data.flights); // Actualizar la lista de vuelos
-            })
-            .catch(error => {
-
-            });
-    };
     chargePage()
 
     return (
         <div>
-            <h1>Lista de Vuelos</h1>
+            <h1>Lista de Vuelos en stock</h1>
             <div>
-                <div className="searchblock">
-                    <div>Busqueda por filtros: </div>
-                    <div>
-                        Aeropuerto de LLegada:
-                        <input
-                            type="text"
-                            placeholder="Ingrese aeropuerto de LLegada"
-                            onChange={event => setDestinoSeleccionado(event.target.value)}
-                        />
-                    </div>
 
-                    <div>
-                        Fecha de Partida:
-                        <input
-                            type="text"
-                            placeholder="Ingrese fecha de partida"
-                            onChange={event => setFechaSeleccionada(event.target.value)}
-                        />
-                    </div>
-                    <button variant="outlined" onClick={handleBuscarClick}>Buscar</button>
-
-
-                </div>
-                <div className="pageBox">
-                    <b>Pagina</b>
-
-                    <div className="pageBar">
-                        <button onClick={prevPage} >Prev </button>
-                        <div>{page}</div>
-                        <button onClick={nextPage} >Next </button>
-                    </div>
-
-                </div>
                 <br/>
                 <div className="info-blocks">
                     {flights.map((flight, index) => (
