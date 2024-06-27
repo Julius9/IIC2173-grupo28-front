@@ -15,7 +15,7 @@ function FlightInfo() {
     const [reserved, setReserved] = useState(false);
     const [newDiscount, setNewDiscount] = useState(0);
     const [offer, setOffer] = useState(1);
-    const [permission, setPermision] = useState("");
+    const [permision, setPermision] = useState("");
     const [stock, setStock] = useState(0);
 
 
