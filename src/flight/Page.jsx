@@ -243,7 +243,7 @@ function FlightInfo() {
                     <button onClick={handleIncrement}>+</button>
                 </div>
                 <div>
-                    <h1>{Permision}</h1>
+                    <h1>{permision}</h1>
                     <h1>{exito}</h1>
                     <button onClick={boughtFromGlobal}>
                         Comprar del Mercado
@@ -265,7 +265,7 @@ function FlightInfo() {
             </div>
             <div className="panelControl">
                 <h1>Panel de Control [ADMIN]</h1>
-                <h1>{Permision}</h1>
+                <h1>{permision}</h1>
                 <div className="Panels">
                     <div className="OfferPanel">
                         <h1>Panel de Ofertas</h1>
