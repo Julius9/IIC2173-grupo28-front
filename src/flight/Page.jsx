@@ -12,6 +12,12 @@ function FlightInfo() {
     const [exito, setExito] = useState("comprar");
     const [price, setPrice] = useState(0);
     const [destino, setDestino] = useState("");
+    const [reserved, setReserved] = useState(false);
+    const [newDiscount, setNewDiscount] = useState(0);
+    const [offer, setOffer] = useState(1);
+    const [permision, setPermision] = useState("");
+    const [stock, setStock] = useState(0);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,6 +26,13 @@ function FlightInfo() {
 
                 const response = await axios.get(`https://api.legitapp.org/flights/${id}`);
                 const data = response.data;
+                const stockResponse = await axios.post(`https://api.legitapp.org/flights/reserved/${id}`)
+                    .then((response) => {
+                        setStock(response.num_boletos)
+                    }).catch((error) => {
+                            console.error('Ocurrió un error de Reservas:', error);
+                        }
+                    );
 
                 setFlightInfo(data);
                 setPrice(data.price); // Actualiza el estado del precio
@@ -50,12 +63,30 @@ function FlightInfo() {
         setNumTickets(prevNumTickets => Math.max(1, prevNumTickets - 1)); // Asegura que el contador no sea menor que 1
     };
 
+    const incrementOffer = () => {
+        setOffer(d => d + 1);
+    };
+
+    const decrementOffer = () => {
+        setOffer(d => Math.max(1, d - 1)); // Asegura que el contador no sea menor que 1
+    };
+
+    const incrementOfferFive = () => {
+        setOffer(d => d + 5);
+    };
+
+    const decrementOfferFive = () => {
+        setOffer(d => Math.max(1, d - 5)); // Asegura que el contador no sea menor que 1
+    };
+
+
+
     const boughtRequest = async (event) => {
-        console.log(localStorage.getItem('token'));
+
         event.preventDefault();
 
         axios.post(`https://api.legitapp.org/flights/${id}/check`, {
-            ticketsToBook: numTickets
+            ticketsToBook: numTickets, isReservation: reserved, isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -68,7 +99,7 @@ function FlightInfo() {
                     setExito('Registro exitoso! Ahora se procedera a la compra.');
                     transactionData();
                 } else {
-                    setExito('No se pudo completar la reserva. Inténtalo nuevamente.');
+                    setExito('No se pudo completar obtener pasajes. Inténtalo nuevamente.');
                 }
             }
         ).catch((error) => {
@@ -76,10 +107,93 @@ function FlightInfo() {
         });
     }
 
+    //Subasta
+    const offerTickets = async (event) => {
+
+        if (localStorage.getItem('admin')){
+            axios.post(`https://api.legitapp.org/flights/${id}/auction`,
+                { ticketsToPropose: offer,
+                    isAdmin: localStorage.getItem('admin') },
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+                .then((response) => {
+                    console.log('Tickets ofrecidos con exito')
+                }).catch((error) => {
+                    console.error('Ocurrió un error BR:', error);
+                }
+            );
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+
+    }
+    const boughtFromReserve = async (event) => {
+        setReserved(true);
+        if (localStorage.getItem('admin')){
+            setPermision("Permisos Invalidos ERES un usuario [ADMIN]")
+        }else{
+            await boughtRequest()
+        }
+
+    }
+    const boughtFromGlobal = async (event) => {
+        setReserved(false);
+        if (localStorage.getItem('admin')){
+            setPermision("Permisos Invalidos ERES un usuario [ADMIN]")
+        }else{
+            await boughtRequest()
+        }
+    }
+    const boughtToReserve = async (event)=>{
+        if (localStorage.getItem('admin')){
+            await boughtRequest()
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+    }
+
+    const activateDiscount = async (event) =>{
+        if (localStorage.getItem('admin')){
+            console.log("activar descuento");
+            axios.post(`https://api.legitapp.org/desc/activate`,
+                { activation: true, percentage: newDiscount, flightID: id,
+                    isAdmin: localStorage.getItem('admin') },
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+                .then((response) => {
+                    console.log('Descuento exitoso')
+                }).catch((error) => {
+                    console.error('Ocurrió un error BR:', error);
+                }
+            );
+
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+    }
+    const deactivateDiscount = async (event) =>{
+        if (localStorage.getItem('admin')){
+            console.log("activar descuento");
+            axios.post(`https://api.legitapp.org/desc/activate`,
+                { activation: false, percentage: newDiscount, flight_id: id,
+                    isAdmin: localStorage.getItem('admin') },
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+                .then((response) => {
+                    console.log('Cancelando el descuento')
+                }).catch((error) => {
+                    console.error('Ocurrió un error BR:', error);
+                }
+            );
+
+        }else{
+            setPermision("Permisos Invalidos NO eres un usuario [ADMIN]")
+        }
+    }
+
     const transactionData = async () => {
         axios.post(`https://api.legitapp.org/transaction/create`, {
             flight_id: id,
-            quantity: numTickets
+            quantity: numTickets,
+            isReservation: reserved,
+            isAdmin: localStorage.getItem('admin')
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -101,6 +215,8 @@ function FlightInfo() {
         });
     }
 
+
+
     return (
         <>
             <h1>Información del Vuelo</h1>
@@ -115,17 +231,73 @@ function FlightInfo() {
                 <p>✈<b>Avión:</b> {flightInfo.airplane}</p>
                 <p>💳<b>Precio:</b> {flightInfo.price} {flightInfo.currency}</p>
                 <p>💺<b>Boletos Restantes:</b> {flightInfo.tickets_left}</p>
+                <p>💺<b>Boletos en nuestro Stock:</b> {stock}</p>
                 <br/>
                 <div className="calculate">
                     <button onClick={handleDecrement}>-</button>
                     <span>{numTickets}</span>
                     <button onClick={handleIncrement}>+</button>
                 </div>
-                <button onClick={boughtRequest}>
-                    Confirmar Compra
-                </button>
-                {/* <p>{exito}</p> */}
+                <h1>{permision}</h1>
+                <h1>{exito}</h1>
+                <div>
+
+                    <button onClick={boughtFromGlobal}>
+                        Comprar del Mercado
+                    </button>
+
+                    <button onClick={boughtFromReserve}>
+                        Comprar de nuestro Stock
+                    </button>
+
+                    <button onClick={boughtToReserve}>
+                        Reservar tickets
+                    </button>
+
+                </div>
+
+
+
+
             </div>
+            <div className="panelControl">
+                <h1>Panel de Control [ADMIN]</h1>
+                <h1>{permision}</h1>
+                <div className="Panels">
+                    <div className="OfferPanel">
+                        <h1>Panel de Ofertas</h1>
+                        <div className="DiscountButtons">
+                            <h3>Descuento a ofrecer: {newDiscount}%</h3>
+                            <div className="Discounts">
+                                <button onClick={() =>setNewDiscount(0.05)}> 5% </button>
+                                <button onClick={() =>setNewDiscount(0.1)}>10%</button>
+                                <button onClick={() =>setNewDiscount(0.2)}>20%</button>
+                            </div>
+                            <button className="Activate" onClick={activateDiscount}>Activar Descuento</button>
+                            <button className="Activate" onClick={deactivateDiscount}>Desactivar Descuento</button>
+                        </div>
+                    </div>
+                    <div className="SubastaPanel">
+                        <h1>Panel de Subastas</h1>
+                        <div className="subastaSubPanel">
+                            <div className="calculator">
+                                <div className="view">
+                                    <button onClick={incrementOfferFive}>+5</button>
+                                    <button onClick={incrementOffer}>+</button>
+                                    <br />
+                                    <h3>Ofreceremos: {offer}</h3>
+                                    <br />
+                                    <button onClick={decrementOffer}>-</button>
+                                    <button onClick={decrementOfferFive}>-5</button>
+                                </div>
+                            </div>
+                            <br />
+                            <button className="OfferButton" onClick={offerTickets}>Ofertar Tickets en Subasta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </>
     );
 }

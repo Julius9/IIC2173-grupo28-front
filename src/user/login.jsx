@@ -23,6 +23,7 @@ function Login() {
             // Recibimos el token y lo procesamos
             const access_token = response.data.token;
             localStorage.setItem('token', access_token);
+            localStorage.setItem('admin', true)
             console.log("Se seteó el token:", access_token);
         } catch (error) {
             console.error('An error occurred while trying to login:', error);
